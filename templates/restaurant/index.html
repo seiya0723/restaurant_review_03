@@ -1,0 +1,41 @@
+{% extends "restaurant/base.html" %}
+{# テンプレートの継承を行う #}
+{% load static %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<script>
+    const datas = [
+        {% for restaurant in restaurants %}
+        { "lat":{{ restaurant.lat }},"lon":{{ restaurant.lon }},"name":"{{ restaurant.name }}" },
+        {% endfor %}
+    ]
+</script>
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="{% static 'restaurant/js/script.js' %}"></script>
+
+<style>
+#map {
+    height:90vh;
+}
+</style>
+{% endblock %}
+
+
+{% block main %}
+
+<div id="map"></div>
+
+{% for restaurant in restaurants %}
+<div class="border">
+    <div>{{ restaurant.name }}</div>
+    <a class="btn btn-outline-primary" href="{% url 'restaurant:single' restaurant.id %}">この飲食店にレビューする</a>
+</div>
+{% endfor %}
+
+{% endblock %}
+

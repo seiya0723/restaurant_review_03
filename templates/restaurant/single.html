@@ -1,0 +1,38 @@
+{% extends "restaurant/base.html" %}
+{# テンプレートの継承を行う #}  
+
+
+{% block main %}
+<div class="border">
+    <div>{{ restaurant.name }}</div>
+</div>
+
+<h2>この飲食店にレビューを投稿する</h2>
+<form action="" method="POST">
+    {% csrf_token %}
+    <select name="star">
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★</option>
+        <option value="3">★★★</option>
+        <option value="2">★★</option>
+        <option value="1">★</option>
+    </select>
+
+    <input class="form-control" type="text" name="title" maxlength="100" placeholder="タイトル">
+    <textarea class="form-control" name="content" maxlength="1000" placeholder="本文"></textarea>
+
+    <input class="btn btn-outline-success" type="submit" value="送信">
+</form>
+
+<h2>この飲食店に投稿されたレビュー</h2>
+
+{% for review in reviews %} 
+<div class="border">
+    <div>{{ review.dt }}</div>
+    <div>{{ review.content }}</div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
+
